@@ -104,7 +104,7 @@ If any step fails, a rollback is triggered and both containers are restarted.
 
 Before using this setup in production, you **must** test the following:
 
-- SSH connection without password (`docs/ssh-key.md`)
+- SSH connection without password ([docs/ssh-key.md](docs/ssh-key.md))
 - rsync with `--dry-run`
 - Correct exclusion of transcodes and cache
 - Docker container stop/start behavior
@@ -113,7 +113,7 @@ Before using this setup in production, you **must** test the following:
 - Jellyfin database integrity
 - SWAG routing to the slave server
 
-A detailed checklist is available in `docs/tests.md`.
+A detailed checklist is available in [docs/tests.md](docs/tests.md).
 
 ---
 
