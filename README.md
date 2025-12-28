@@ -127,25 +127,6 @@ See `docs/jellyfin-ui.md`.
 
 ---
 
-## 📂 Repository Structure
-
-jellyfin-failover/
-├── README.md
-├── failover/
-│ ├── jellyfin_failover.sh
-│ └── jellyfin_failover.conf
-├── docs/
-│ ├── architecture.md
-│ ├── tests.md
-│ ├── failover.md
-│ ├── failback.md
-│ └── jellyfin-ui.md
-├── LICENSE
-└── COPYING
-
-
----
-
 ## ⚠️ Disclaimer
 
 This project does **not** provide:
