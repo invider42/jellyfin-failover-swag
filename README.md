@@ -14,18 +14,32 @@ This is a **disaster recovery / failover setup**, not a real-time high-availabil
 
 ```mermaid
 graph TD
-    Users --> SWAG[SWAG Reverse Proxy]
-    SWAG --> MASTER[Jellyfin MASTER (Unraid)]
-    SWAG --> SLAVE[Jellyfin SLAVE (Docker)]
+    subgraph MASTER_SERVER["Master Server (Unraid)"]
+        SWAG["SWAG (Docker)"]
+        MASTER["Jellyfin (Docker)"]
+        NFS["Shared Media Storage (NFS)"]
+    end
+
+    subgraph SLAVE_SERVER["Slave Server"]
+        SLAVE["Jellyfin (Docker)"]
+    end
+
+    Clients --> SWAG
+    SWAG --> MASTER
+    SWAG --> SLAVE
+
+    MASTER -->|reads/writes| NFS
+    SLAVE -->|reads/writes| NFS
+    MASTER -->|rsync config/db| SLAVE
 ```
 
 
 ### Key points
 
-- Media files are stored on **shared NFS storage**
+- Media files are stored on **shared NFS storage** on unraid
 - Jellyfin configuration is synchronized using **rsync over SSH**
-- The slave server is always powered on for fast recovery
-- Jellyfin is never running on both servers at the same time (no split-brain)
+- The slave server is always powered on for fast recovery (in my case it run on my ISP router)
+- The slave Jellyfin container runs continuously, even when the master is active, ready to take over in case of failover.
 
 ---
 
@@ -36,10 +50,9 @@ graph TD
 - Configuration & database synchronization
 - ACL and extended attributes preserved
 - SSH key-based authentication
-- Rollback mechanism in case of error
+- TODO Rollback mechanism in case of error
 - Lock file to prevent concurrent executions
-- Dry-run support for safe testing
-- Optional UI warning banner on Jellyfin login page
+- Optional UI warning banner on the Jellyfin slave login page to inform users that they are connected to a backup server and that some media or settings may not be fully up-to-date.
 
 ---
 
@@ -70,7 +83,6 @@ graph TD
 - `BatchMode=yes` prevents password prompts
 - Containers are explicitly stopped before sync
 - Optional root rsync to preserve permissions and ACLs
-- Rollback automatically restarts containers if an error occurs
 
 ⚠️ **This setup assumes a trusted local network**
 
@@ -92,7 +104,7 @@ If any step fails, a rollback is triggered and both containers are restarted.
 
 Before using this setup in production, you **must** test the following:
 
-- SSH connection without password
+- SSH connection without password (`docs/ssh-key.md`)
 - rsync with `--dry-run`
 - Correct exclusion of transcodes and cache
 - Docker container stop/start behavior
