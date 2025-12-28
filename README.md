@@ -12,14 +12,12 @@ This is a **disaster recovery / failover setup**, not a real-time high-availabil
 
 ## 🏗️ Architecture
 
-Users
-|
-v
-SWAG (Reverse Proxy)
-|
-+--> Jellyfin MASTER (Unraid)
-|
-+--> Jellyfin SLAVE (Docker, low-power host)
+```mermaid
+graph TD
+    Users --> SWAG[SWAG Reverse Proxy]
+    SWAG --> MASTER[Jellyfin MASTER (Unraid)]
+    SWAG --> SLAVE[Jellyfin SLAVE (Docker)]
+```
 
 
 ### Key points
