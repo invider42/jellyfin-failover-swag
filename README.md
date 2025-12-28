@@ -100,30 +100,29 @@ If any step fails, a rollback is triggered and both containers are restarted.
 
 ---
 
-## 🧪 Tests Before Production
+## Documentation
 
-Before using this setup in production, you **must** test the following:
+### 📦 Installation
 
-- SSH connection without password ([docs/ssh-key.md](docs/ssh-key.md))
-- rsync with `--dry-run`
-- Correct exclusion of transcodes and cache
-- Docker container stop/start behavior
-- Rollback mechanism
-- Slave Jellyfin startup with copied configuration
-- Jellyfin database integrity
-- SWAG routing to the slave server
+➡️ **Complete installation guide (all-in-one):**
 
-A detailed checklist is available in [docs/tests.md](docs/tests.md).
+- Unraid setup with CA User Scripts
+- Jellyfin Docker requirements (PUID / PGID / UMASK)
+- NFS configuration
+- SSH passwordless access
+- rsync configuration
+- SWAG failover configuration
+- Jellyfin slave UI warning
+
+👉 **[Installation Guide](docs/installation.md)**
 
 ---
 
-## 🎨 Jellyfin Login Warning (Backup Mode)
+### 🧪 Tests & Validation
 
-You can display a warning banner on the Jellyfin login page to inform users they are connected to a backup server.
+Before production use, a full test checklist is provided:
 
-This uses **separated HTML and CSS**, compatible with Jellyfin settings.
-
-See `docs/jellyfin-ui.md`.
+👉 **[Tests Before Production](docs/tests.md)**
 
 ---
 
